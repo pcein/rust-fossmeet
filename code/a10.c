@@ -4,16 +4,18 @@ void fun(char *t)
 {
     /* do some stuff here */
     
-    free(t); //bug!
+    free(t);
 
 }
 
 int main()
 {
-    char c;
+    char *c;
 
-    fun(&c);
+    c =  malloc(10 * sizeof(char));
+    fun(c);
 
+    free(c); //bug! double free
 }
 
 

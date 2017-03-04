@@ -134,9 +134,13 @@ int main()
 }
 ```
 
-# Stack Frames - deallocations and allocations
+# Stack Frames - allocations and deallocations
 
 ![Multiple stack frames](images/img4.png){ height=40%, width=70% }
+
+# Stack Frames - allocations and deallocations
+
+![Multiple stack frames](images/img5.png){ height=40%, width=70% }
 
 # Dangling Pointers
 
@@ -154,6 +158,130 @@ int main() {
     b = *a;
 }
 ```
+# Dangling pointers
+
+![Dangling pointer](images/img6.png){ height=40%, width=70% }
+
+# Null pointer dereferencing
+
+```c
+// a6.c
+#include <strings.h>
+#include <stdio.h>
+int main()
+{
+    char s[100] = "hello";
+    char *p;
+    p = index(s, 'f');
+    *p = 'a'; // bug!
+    return 0;
+}
+```
+
+# Heap allocation - malloc and free
+
+```c
+// a7.c
+#include <stdlib.h>
+void fun()
+{
+    char *c;
+    c = malloc(10*sizeof(char));
+    /* do some stuff here */
+    free(c);
+}
+int main()
+{
+    fun(); 
+}
+```
+
+# Heap allocation - malloc and free
+
+![A stack location pointing to a heap location](images/img7.png){ height=40%, width=70% }
+
+# Memory leaks
+
+```c
+// a8.c
+#include <stdlib.h>
+void fun()
+{
+    char *c;
+    c = malloc(10*sizeof(char));
+    /* do some stuff here */
+}
+int main()
+{
+    fun(); // bug! memory leak.
+}
+```
+# Use-after-free
+
+```c
+// a9.c
+#include <stdlib.h>
+void fun(char *t) {
+    /* do some stuff here */
+    free(t);
+}
+int main() {
+    char *c;
+    c =  malloc(10 * sizeof(char));
+    fun(c);
+    c[0] = 'A'; //bug! user-after-free
+}
+```
+
+# Double free
+
+```c
+// a10.c
+#include <stdlib.h>
+void fun(char *t) {
+    /* do some stuff here */
+    free(t);
+}
+int main() {
+    char *c;
+    c =  malloc(10 * sizeof(char));
+    fun(c);
+    free(c); //bug! double free
+}
+```
+
+# Undefined behaviours and optimization
+
+```c
+// a11.c
+#include <limits.h>
+#include <stdio.h>
+// compile the code with optimization (-O3) and without
+int main() {
+    int c = INT_MAX;
+    if (c+1 < c) 
+        printf("hello\n");
+    printf("%d\n", c+1);
+}
+```
+
+# Undefined behaviours
+
+> When tools like the bounds checking GCC, Purify, Valgrind, etc. first 
+> showed up, it was interesting to run a random UNIX utility under them. 
+> The output of the checker showed that these utility programs, despite 
+> working perfectly well, executed a ton of memory safety errors such as 
+> use of uninitialized 
+> data, accesses beyond the ends of arrays, etc. Just running grep or 
+> whatever would cause tens or hundreds of these errors to happen.
+
+From: http://blog.regehr.org/archives/226
+
+
+
+
+
+
 
 
 # Conclusion
