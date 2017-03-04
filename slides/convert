@@ -1,0 +1,2 @@
+ps2epsi $1.ps
+convert -density 800 $1.epsi -resize 75% $1.png
