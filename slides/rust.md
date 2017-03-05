@@ -390,11 +390,102 @@ fn main() {
     println!("{:?}", a);
 }
 ```
+# Memory safety without garbage collection
+
+- Languages like Python, Java etc achieve memory safety
+  at run time through garbage collection.
+
+- Rust achieves memory safety at compile time by static
+  type analysis. 
+
+- Ownership + move semantics has some interesting properties
+  which makes them suitable for general resource management (not
+  just memory).
+
+# Garbage Collection
+
+```python
+# a20.py
+a = [10, 20, 30]
+a.append(40)
+print a
+```
+# Garbage Collection
+
+```python
+# a21.py
+a = [10, 20, 30]
+b = a
+b.append(40)
+print a # what does this print?
+```
+
+# Garbage Collection
+
+![References in Python](images/img11.png){ height=40%, width=80% }
 
 
+# Garbage Collection
+
+![Reference Counting](images/img12.png){ height=40%, width=80% }
 
 
+# Garbage Collection
 
+```python
+# a22.py
+a = [10, 20, 30]
+b = a # refcount is 2
+
+a = "hello"  # refcount is 1
+b = "world"  # refcount drops to zero, deallocate
+```
+
+# Resource management
+
+```python
+# a23.py
+def read_a_line():
+    f = open("/etc/passwd")
+    s = f.readline()
+    f.close() # close the file, release OS resources
+    return s
+
+while True:
+    print read_a_line()
+
+```
+# Resource Leaks in managed languages
+
+```python
+# a24.py
+def read_a_line():
+    f = open("/etc/passwd")
+    s = f.readline()
+    # No explicit "close"
+    return s
+
+while True:
+    print read_a_line()
+```
+
+# Rust means never having to close a file!
+
+```rust
+// a25.rs
+use std::fs::File;
+use std::io::Read;
+fn read_whole_file() -> String {
+    let mut s = String::new();
+    let mut f = File::open("/etc/passwd").unwrap();
+    f.read_to_string(&mut s).unwrap();
+    s // return the string
+}
+fn main() {
+    println!("{}", read_whole_file());
+}
+```
+Read: http://blog.skylight.io/rust-means-never-having-to-close-a-socket/
 
 # Conclusion
 
