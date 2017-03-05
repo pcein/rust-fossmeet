@@ -289,6 +289,108 @@ From: http://blog.regehr.org/archives/226
 
 A comment on: http://blog.regehr.org/archives/232
 
+# Hello, world!
+
+```rust
+// a12.rs
+fn main() {
+    println!("hello, world!");
+}
+
+```
+Compile: rustc a12.rs
+
+Run: ./a12
+
+# Ownership
+
+```rust
+// a13.rs
+fn main() {
+    let v = vec![10, 20, 30];
+    println!("{:?}", v);   
+}
+// how is v deallocated?
+```
+
+# Ownership
+
+![Memory representation of a vector](images/img9.png){ height=35%, width=70% }
+
+# Ownership
+
+```rust
+// a14.rs
+fn fun1() {
+    let v = vec![10 ,20 ,30];
+}
+fn main() {
+    fun1();
+}
+```
+# Ownership
+
+```rust
+// a15.rs
+fn main() {
+    let  v1 = vec![10 ,20 ,30];
+    let  v2 = v1;
+    println!("{:?}", v2);
+}
+// do we have a double free here? 
+```
+
+# Ownership
+
+![Two pointers](images/img10.png){ height=35%, width=70% }
+
+# Ownership
+
+```rust
+// a16.rs
+fn main() {
+    let  v1 = vec![10, 20, 30];
+    let mut v2 = v1;
+    v2.truncate(2);
+    println!("{:?}", v2);
+}
+```
+
+# Move semantics
+
+```rust
+// a17.rs
+fn main() {
+    let  v1 = vec![1,2,3];
+    
+    let mut v2 = v1;
+    v2.truncate(2);
+    println!("{:?}", v1);
+}
+```
+
+# Move semantics
+
+```rust
+// a18.rs
+fn main() {
+    let a = (1, 2.3);
+    let b = a;
+    println!("{:?}", a);
+}
+```
+
+# Move semantics
+
+```rust
+// a19.rs
+fn main() {
+    let a = (1, 2.3, vec![10,20]);
+    let b = a;
+    println!("{:?}", a);
+}
+```
+
 
 
 
