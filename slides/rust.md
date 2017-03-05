@@ -265,6 +265,11 @@ int main() {
 }
 ```
 
+
+# Undefined behaviours
+
+![https://www.explainxkcd.com/wiki/images/c/cc/cant_sleep.png](images/img8.png){ height=40%, width=90% }
+
 # Undefined behaviours
 
 > When tools like the bounds checking GCC, Purify, Valgrind, etc. first 
@@ -277,7 +282,12 @@ int main() {
 
 From: http://blog.regehr.org/archives/226
 
+# Undefined behaviours
 
+> More and more, I’m starting to wonder how safety-critical code 
+> can continue being written in C.
+
+A comment on: http://blog.regehr.org/archives/232
 
 
 
