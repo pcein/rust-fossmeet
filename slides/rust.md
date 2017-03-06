@@ -575,6 +575,7 @@ fn main() {
 # Immutable Borrow
 
 ```rust
+// a29.rs
 fn main() {
     let v = vec![1,2,3];
     let t1 = &v;
@@ -583,6 +584,35 @@ fn main() {
 }
 // any number of immutable borrows are ok!
 ```
+
+# Immutable Borrow
+
+```rust
+// a30.rs
+fn change(t1: &Vec<i32>) {
+    t1[0] = 10;
+}
+fn main() {
+    let mut v = vec![1,2,3];
+    change(&v);
+}
+// Does the program compile?
+```
+
+# Mutable Borrow
+
+```rust
+// a31.rs
+fn change(t1: &mut Vec<i32>) {
+    t1[0] = 10;
+}
+fn main() {
+    let mut v = vec![1,2,3];
+    change(&mut v);
+    println!("{:?}", v);
+}
+```
+
 
 # Conclusion
 
