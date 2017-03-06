@@ -344,6 +344,22 @@ fn main() {
 
 ![Two pointers](images/img10.png){ height=35%, width=70% }
 
+
+# Ownership
+
+```rust
+// a15-1.rs
+fn fun(v2: Vec<i32>)  {
+    println!("{:?}", v2);
+}
+fn main() {
+    let  v1 = vec![10, 20, 30];
+    fun(v1);
+}
+// do we have a double free here?
+```
+
+
 # Ownership
 
 ```rust
@@ -354,7 +370,10 @@ fn main() {
     v2.truncate(2);
     println!("{:?}", v2);
 }
+// what happens if we try to acces the
+// vector through v1?
 ```
+
 
 # Move semantics
 
@@ -365,6 +384,20 @@ fn main() {
     
     let mut v2 = v1;
     v2.truncate(2);
+    println!("{:?}", v1);
+}
+```
+
+# Move semantics
+
+```rust
+// a15-2.rs
+fn fun(v2: Vec<i32>)  {
+    println!("{:?}", v2);
+}
+fn main() {
+    let  v1 = vec![10, 20, 30];
+    fun(v1);
     println!("{:?}", v1);
 }
 ```
@@ -486,6 +519,48 @@ fn main() {
 }
 ```
 Read: http://blog.skylight.io/rust-means-never-having-to-close-a-socket/
+
+# Ownership / Move: Limitations
+
+```rust
+// a26.rs
+fn vector_sum(v: Vec<i32>) -> i32 {
+    //assume v is always a 3 elemnt vector
+    v[0] + v[1] + v[2]
+}
+fn main() {
+    let v = vec![1,2,3];
+    let s = vector_sum(v);
+    println!("{}",s);
+}
+```
+
+# Ownership / Move: Limitations
+
+```rust
+// a27.rs
+fn vector_sum(v: Vec<i32>) -> i32 {
+    v[0] + v[1] + v[2]
+}
+fn vector_product(v: Vec<i32>) -> i32 {
+    v[0] * v[1] * v[2]
+}
+fn main() {
+    let v = vec![1,2,3];
+    let s = vector_sum(v);
+    let p = vector_product(v);
+    println!("{}",p);
+}
+// does this code compile?
+```
+
+
+
+
+
+
+
+
 
 # Conclusion
 
