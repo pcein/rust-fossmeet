@@ -747,6 +747,25 @@ fn main() {
 }
 ```
 
+# Lifetimes
+
+```rust
+// a37.rs
+fn main() {
+    let ref1: &Vec<i32>;
+    {
+        let v = vec![1, 2, 3];
+        ref1 = &v;
+    }
+    // v gets deallocated as it goes out of
+    // the scope. What about ref1? Do we have
+    // a "dangling pointer" here?
+}  
+```
+
+# Lifetimes
+
+
 # Conclusion
 
 ![rustpoem](images/rustpoem.png)
