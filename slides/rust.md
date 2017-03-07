@@ -302,6 +302,46 @@ Compile: rustc a12.rs
 
 Run: ./a12
 
+# Type inference
+
+```rust
+// a12-1.rs
+fn sqr(x: i32) -> i32 {
+    let y = x * x; // type inferred
+    y
+}
+fn main() {
+    let t1 = sqr(10); // type inferred
+    let t2:i32 = sqr(20);
+    println!("sqr 10 = {}, sqr 20 ={}", t1, t2);
+}
+```
+
+# Immutability
+
+```rust
+// a12-2.rs
+fn main() {
+    let x = 0; // x is immutable
+    let mut y = 1;
+    x = x + 1; // does not work
+    y = y + 1;
+}
+```
+
+# Scope
+
+```rust
+// a12-3.rs
+fn main() {
+    let x = 10;
+    {
+        let y = 20;
+    }
+    println!("x={}, y={}", x, y);
+}
+```
+
 # Ownership
 
 ```rust
@@ -323,7 +363,7 @@ fn main() {
 // a14.rs
 fn fun1() {
     let v = vec![10 ,20 ,30];
-}
+} // how is v deallocated?
 fn main() {
     fun1();
 }
@@ -612,6 +652,71 @@ fn main() {
     println!("{:?}", v);
 }
 ```
+
+# A use-after-free bug
+
+```c
+// a32.c
+#include <stdlib.h>
+int main()
+{
+    char *p = malloc(10 * sizeof(char));
+    char *q;
+
+    q = p + 2;
+    free(p);
+    *q = 'A'; // bug!
+    return 0;
+}
+```
+
+# Vector allocation in Rust
+
+```rust
+// a33.rs
+fn main() {
+    let mut a = vec![];
+    a.push(1); a.push(2);
+    a.push(3); a.push(4);
+    a.push(5);
+
+    println!("{:?}", a);
+}
+```
+
+# Vector allocation in Rust
+
+![Growing a vector](images/img13.png){ height=30%, width=70% }
+
+# A use-after-free bug in Rust?
+
+```rust
+fn main() {
+    let mut v = vec![10, 20, 30, 40];
+    let p1 = &v[1];
+    v.push(50);
+    // bug if we try to use p1
+    // does this code compile?
+}
+```
+# Borrowing Rules
+
+- Any number of immutable borrows can co-exist.
+
+- A mutable borrow can not co-exist with other 
+  mutable or immutable borrows.
+
+- The "borrow checker" checks violations of these
+  rules at compile time.
+
+# Borrow checker limitations
+
+- The borrow checker gives you safety by rejecting ALL
+  unsafe programs.
+
+- But it is not perfect in the sense it rejects  safe
+  programs also.
+
 
 
 # Conclusion
