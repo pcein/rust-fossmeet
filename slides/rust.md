@@ -715,14 +715,40 @@ fn main() {
   unsafe programs.
 
 - But it is not perfect in the sense it rejects  safe
-  programs also.
+  programs also; "fighting the borrow checker" is a 
+  common sporting activity among Rust programmers :)
 
+- There are plans to improve the situation:
+  http://smallcultfollowing.com/babysteps/blog/2017/03/01/nested-method-calls-via-two-phase-borrowing/
 
+# Borrow checker limitations - an example
+
+```rust
+// a35.rs
+fn main() {
+    let mut v = vec![10,20,30];
+    v.push(v.len());
+}
+// this will not compile
+```
+
+# Borrow checker limitations - an example
+
+```rust
+// a36.rs
+// Same as a35.rs
+fn main() {
+    let mut v = vec![10,20,30];
+    let tmp0 = &v;
+    let tmp1 = &mut v;
+    let tmp2 = Vec::len(tmp0); //v.len()
+    
+    Vec::push(tmp1, tmp2);// v.push(tmp2)
+}
+```
 
 # Conclusion
 
 ![rustpoem](images/rustpoem.png)
-
-
 
 
