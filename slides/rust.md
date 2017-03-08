@@ -9,6 +9,10 @@
 >               
 >                               Alan Perlis.
 
+# 
+
+![rustpoem](images/rustpoem2.png)
+
 # Why is Rust so exciting?
 
 - Safe low-level systems programming
@@ -1070,7 +1074,69 @@ fn main() {
     println!("{}", c.unwrap());
 }
 ```
-# An implementation of Option 
+# Generic Enums - an implementation of Option 
+
+```rust
+// a53.rs
+// A "generic" enum similar to Option
+enum Maybe <T> {
+    Just(T),
+    Nothing,
+}
+use Maybe::*;
+fn main() {
+    let c:Maybe<i32> = Just(10);
+    let d:Maybe<&str> = Just("hello");
+    let e = Just(20);
+    let f = Just("world");
+}
+```
+# Generic functions
+
+```rust
+// a54.rs
+fn identity <T> (x: T) -> T {
+    x
+}
+fn main() {
+    let a = identity(10);
+    let b = identity('A');
+    let c = identity("hello");
+
+    println!("{}, {}, {}", a, b, c);
+}
+```
+Rust creates specialized versions of the "identity" function
+for each argument type. This is called "monomorphization".
+
+# Tools
+
+- Cargo, the package manager (crates.io holds packages)
+- rustfmt, formatting Rust code according to style guidelines
+- clippy, a "lint" tool for Rust
+
+# Interesting projects using Rust
+
+- Servo, from Mozilla. The next-gen browser engine.
+- Redox OS (https://www.redox-os.org/), an Operating System 
+  being written from scratch in Rust.
+- ripgrep (https://github.com/BurntSushi/ripgrep), a fast text search
+  tool.
+- rocket.rs - a powerful web framework.
+- More: https://github.com/kud1ing/awesome-rust
+
+# Companies using Rust
+ 
+- Friends of Rust: https://www.rust-lang.org/vi-VN/friends.html
+
+# Documentation
+
+- Official Rust book (http://rust-lang.github.io/book/). The second edition
+  is far better, even though it is incomplete.
+
+- Upcoming O'Reilly book: http://shop.oreilly.com/product/0636920040385.do
+
+- http://intorust.com/ (screencasts for learning Rust)
 
 
 
