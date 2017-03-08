@@ -910,3 +910,167 @@ fn main() {
 
 # Zero Cost Abstractions
 
+```rust
+// a45.rs
+const N: u64 = 1000000000;
+fn main() {
+    let r = (0..N)
+            .map(|x| x + 1)
+            .fold(0, |sum, i| sum+i);
+
+    println!("{}", r);
+}
+// Compile with optimizations enabled:
+// rustc -O a45.rs
+```
+
+# Zero cost abstractions
+
+Here is part of the assembly language code produced by the
+compiler for a45.rs:
+
+```asm
+.Ltmp0:
+    .cfi_def_cfa_offset 80
+    movabsq $500000000500000000, %rax
+    movq    %rax, (%rsp)
+    leaq    (%rsp), %rax
+    movq    %rax, 8(%rsp)
+```
+
+Looks like the expression has been evaluated fully at compile
+time itself!
+
+Here is the commandline used to produce the above output:
+
+```
+rustc -O a45.rs --emit=asm
+```
+
+# Zero cost abstractions
+
+- You can write confidently using all the high-level abstractions
+  the language has to offer.
+
+- Your code will almost always be as fast as hand-coded low level C!
+  
+
+# Sum Types and Pattern Matching
+
+```rust
+// a46.rs
+enum Color {
+    Red,
+    Green,
+    Blue,
+}
+use Color::*;
+fn main() {
+    let c = Red;
+    match c {
+        Red => println!("color is Red!"),
+        Green => println!("color is Green!"),
+        Blue => println!("color is Blue!")
+    }
+}
+```
+
+# Sum Types and Pattern Matching
+
+```rust
+// a47.rs
+#[derive(Debug)]
+enum Shape {
+    Circle(u32),
+    Square (u32),
+    Rectangle {ht: u32, wid: u32},
+}
+use Shape::*;
+fn main() {
+    let s1 = Circle(10);
+    let s2 = Square(5);
+    let s3 = Rectangle {ht: 10, wid: 2};
+
+    println!("{:?}", s3);
+}
+```
+# Pattern matching is exhaustive
+
+```rust
+// a48.rs
+#[derive(Debug)]
+enum Shape {
+    Circle(f64),
+    Square (f64),
+    Rectangle {ht: f64, wid: f64},
+}
+use Shape::*;
+fn area(s: Shape) -> f64 {
+    match s {
+        Circle(x) => 3.14 * x * x,
+        Rectangle {ht: x, wid: y} => x * y,
+    } // bug!
+}
+fn main() {
+    let s1 = Circle(10.0);
+    println!("{}", area(s1));
+}
+```
+# The Option type
+
+```rust
+// a49.rs
+fn main() {
+    let mut a = vec![10];
+    let b = a.pop();
+    let c = a.pop();
+
+    let d = b + 1; // does it compile?
+}
+```
+
+# The Option type
+
+```rust
+// a50.rs
+fn main() {
+    let mut a = vec![10];
+    let b = a.pop();
+    let c = a.pop();
+
+    println!("b = {:?}, c = {:?}", b, c); 
+}
+```
+
+# The Option type
+
+```rust
+// a51.rs
+fn main() {
+    let mut a = vec![10];
+    let b = a.pop();
+
+    match b {
+        Some(x) => println!("pop: {}", x),
+        None => println!("empty stack"),
+    }
+}
+```
+
+# The Option type
+
+```rust
+// a52.rs
+fn main() {
+    let mut a = vec![10];
+    let b = a.pop();
+
+    println!("{}", b.unwrap());
+    let c = a.pop();
+    println!("{}", c.unwrap());
+}
+```
+# An implementation of Option 
+
+
+
