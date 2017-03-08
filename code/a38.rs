@@ -1,7 +1,7 @@
 
 fn foo() -> Vec<i32> {
     let v = vec![1, 2, 3];
-    v
+    v // transfer ownership to caller
 }
 
 fn main() {
