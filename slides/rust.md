@@ -684,13 +684,33 @@ fn main() {
 }
 ```
 
-# Vector allocation in Rust
+# Vector allocation in Rust/C++
 
 ![Growing a vector](images/img13.png){ height=30%, width=70% }
+
+# A use-after-free bug in C++
+
+```cpp
+// a33-1.cpp
+#include <vector>
+#include <iostream>
+using namespace std;
+int main()
+{
+    vector<int> v;
+    int *p;
+    v.push_back(1);
+    p = &v[0];
+    v.push_back(2);
+    *p = 100; // bug!
+    cout << v[0] << endl;
+} 
+```
 
 # A use-after-free bug in Rust?
 
 ```rust
+// a34.rs
 fn main() {
     let mut v = vec![10, 20, 30, 40];
     let p1 = &v[1];
@@ -848,8 +868,45 @@ fn main() {
 }
 ```
 
-# Conclusion
+# Unsafe
+
+```rust
+// a43.rs
+fn main() {
+    // a is a "raw" pointer intialized to 0
+    let a: *mut u32 = 0 as *mut u32;
+
+    *a = 0;
+}
+```
+
+# Unsafe
+
+```rust
+// a44.rs
+fn main() {
+    let a: *mut u32 = 0 as *mut u32;
+
+    unsafe {
+        *a = 0;
+    }
+}
+```
+
+# End of Part 1
+
+- What we have seen so far is the "core" of Rust, these are
+  the ideas which make Rust unique! 
+
+- Most of the other "interesting" ideas are borrowed from statically
+  typed functional programming languages (like ML). (The first
+  Rust compiler was written in Ocaml).
+
+
+# End of Part 1
 
 ![rustpoem](images/rustpoem.png)
 
+
+# Zero Cost Abstractions
 
