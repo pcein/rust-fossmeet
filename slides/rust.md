@@ -34,6 +34,11 @@
 >               http://blog.regehr.org/archives/1393
 
 
+# Why not just use C/C++?
+
+![Cloudbleed](images/cloudbleed.png)
+
+
 # A bit of Rust history
 
 - Started by Graydon Hoare as a personal project in 2006
@@ -98,6 +103,7 @@ int main()
     a[4] = 5; // bug
     a[5] = 6; // bug
     a[10000] = 7; // bug
+
 }
 ```
 
@@ -121,7 +127,7 @@ int main()
 
 # Pointers in C
 
-![How pointer variables are stored in memory](images/img3.png){ height=40% }
+![How pointer variables are stored in memory](images/img3.png){ height=60% }
 
 # Stack Frames - deallocations and allocations
 
@@ -140,11 +146,11 @@ int main()
 
 # Stack Frames - allocations and deallocations
 
-![Multiple stack frames](images/img4.png){ height=40%, width=70% }
+![Multiple stack frames](images/img4.png){ height=60%, width=70% }
 
 # Stack Frames - allocations and deallocations
 
-![Multiple stack frames](images/img5.png){ height=40%, width=70% }
+![Multiple stack frames](images/img5.png){ height=60%, width=70% }
 
 # Dangling Pointers
 
@@ -164,7 +170,7 @@ int main() {
 ```
 # Dangling pointers
 
-![Dangling pointer](images/img6.png){ height=40%, width=70% }
+![Dangling pointer](images/img6.png){ height=60%, width=70% }
 
 # Null pointer dereferencing
 
@@ -934,7 +940,30 @@ loop {
 - http://pramode.in/2016/12/17/rust-on-tiva-launchpad/
 - https://japaric.github.io/discovery/
 
+# A complete web app in Rust (using rocket.rs)
 
+```rust
+#![feature(plugin)]
+#![plugin(rocket_codegen)]
+
+extern crate rocket;
+
+#[get("/<name>")]
+fn index(name: &str) -> String {
+    format!("\nHello, {}!, hope you are enjoying \
+           the Rust workshop!\n", name)
+}
+fn main() {
+    rocket::ignite()
+    .mount("/", routes![index])
+    .launch();
+}
+```
+# Test run the web app!
+
+- wget -q -O  - http://128.199.100.27:8000/Mohan
+
+- curl -s http://128.199.100.27:8000/Mohan
 
 # End of Part 1
 
