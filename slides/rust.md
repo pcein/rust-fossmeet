@@ -52,7 +52,7 @@
     * Move Semantics
     * Borrowing and lifetimes
 
-- Type Inference
+- Static Typing with Type Inference
 - Algebraic Data Types (Sum and Product types)
 - Exhaustive Pattern Matching
 - Trait-based generics
@@ -306,7 +306,7 @@ Compile: rustc a12.rs
 
 Run: ./a12
 
-# Type inference
+# Static Typing and Type inference
 
 ```rust
 // a12-1.rs
@@ -320,6 +320,18 @@ fn main() {
     println!("sqr 10 = {}, sqr 20 ={}", t1, t2);
 }
 ```
+# Static Typing and Type Inference
+
+The Rust type system is considerably more advanced than that
+of "mainstream" languages like Java,C.
+
+- https://github.com/jaheba/stuff/blob/master/communicating_intent.md
+
+- http://ferrisellis.com/posts/rust-implementing-units-for-types/
+
+- https://fsharpforfunandprofit.com/series/designing-with-types.html (you
+   can do most of these in Rust)
+
 
 # Immutability
 
@@ -896,6 +908,33 @@ fn main() {
     }
 }
 ```
+
+# Rust on  microcontrollers
+
+![Stellaris Launchpad](images/tiva2.jpg)
+
+# Rust on  microcontrollers
+
+```rust
+// part of blinky.rs
+loop {
+    gpio::port_write(gpio::GPIO_PORTF_BASE, 
+                     gpio::GPIO_PIN_1, 
+                     gpio::GPIO_PIN_1);
+    delay(500000);
+    gpio::port_write(gpio::GPIO_PORTF_BASE, 
+                     gpio::GPIO_PIN_1, 
+                     0);
+    delay(500000);
+}
+```
+
+# Rust on microcontrollers
+
+- http://pramode.in/2016/12/17/rust-on-tiva-launchpad/
+- https://japaric.github.io/discovery/
+
+
 
 # End of Part 1
 
