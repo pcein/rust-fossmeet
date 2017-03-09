@@ -930,6 +930,21 @@ fn main() {
 
 # Zero cost abstractions
 
+```rust
+
+(0 .. N) => (0, 1, 2, 3, .... N-1) # an "iterator"
+
+(0 .. N).map(|x| x+1) => (1, 2, 3, 4 .... N)
+
+(1, 2, 3, ... N).fold(0, |sum, i| sum + i)
+  
+  => ((((0 + 1) + 2) + 3) + 4) + ....
+
+```
+
+
+# Zero cost abstractions
+
 Here is part of the assembly language code produced by the
 compiler for a45.rs:
 
@@ -1109,11 +1124,77 @@ fn main() {
 Rust creates specialized versions of the "identity" function
 for each argument type. This is called "monomorphization".
 
+# Product Types: Structures
+
+```rust
+// a55.rs
+struct Rectangle {
+    h: f64,
+    w: f64,
+}
+impl Rectangle {
+    fn area(&self) -> f64 {
+        self.h * self. w
+    }
+}
+fn main() {
+    let r = Rectangle { h: 2.0, w: 3.0 };
+    println!("area = {}", r.area());
+}
+```
+
+# Traits 
+
+```rust
+// a56.rs
+struct Rectangle {
+    h: f64,
+    w: f64,
+}
+struct Circle {
+    r: f64,
+}
+// is "a" bigger than "b" in area?
+// should work for any shape
+fn is_bigger <T1, T2> (a: T1, b: T2) -> bool {
+    a.area() > b.area()
+}
+fn main() {
+    let r = Rectangle { h: 3.0, w: 2.0 };
+    let c = Circle { r: 5.0 };
+    println!("{}", is_bigger(r, c));
+}
+```
+
+# Traits
+
+```rust
+// part of a57.rs
+trait HasArea {
+    fn area(&self) -> f64;
+}
+impl HasArea for Rectangle {
+    fn area(&self) -> f64 {
+        self.h * self.w
+    }
+}
+impl HasArea for Circle {
+    fn area(&self) -> f64 {
+        3.14 * self.r * self.r
+    }
+}
+fn is_bigger <T1:HasArea, T2:HasArea> 
+            (a: T1, b: T2) -> bool {
+    a.area() > b.area()
+}
+```
+
 # Tools
 
 - Cargo, the package manager (crates.io holds packages)
 - rustfmt, formatting Rust code according to style guidelines
 - clippy, a "lint" tool for Rust
+- rustup (https://www.rustup.rs/), the Rust toolchain installer/manager
 
 # Interesting projects using Rust
 
