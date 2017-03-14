@@ -9,9 +9,6 @@
 >               
 >                               Alan Perlis.
 
-# 
-
-![rustpoem](images/rustpoem2.png)
 
 # Why is Rust so exciting?
 
